@@ -42,7 +42,7 @@ relationship OneToMany{
     ExpenseCategory to Expense{expenseCategory}
 }
 
-
+paginate * with pagination
 
 
 
