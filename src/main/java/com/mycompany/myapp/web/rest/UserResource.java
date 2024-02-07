@@ -7,6 +7,7 @@ import com.mycompany.myapp.security.AuthoritiesConstants;
 import com.mycompany.myapp.service.MailService;
 import com.mycompany.myapp.service.UserService;
 import com.mycompany.myapp.service.dto.AdminUserDTO;
+import com.mycompany.myapp.utils.CacheUtil;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import com.mycompany.myapp.web.rest.errors.EmailAlreadyUsedException;
 import com.mycompany.myapp.web.rest.errors.LoginAlreadyUsedException;
@@ -188,7 +189,15 @@ public class UserResource {
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<AdminUserDTO> getUser(@PathVariable("login") @Pattern(regexp = Constants.LOGIN_REGEX) String login) {
         log.debug("REST request to get User : {}", login);
-        return ResponseUtil.wrapOrNotFound(userService.getUserWithAuthoritiesByLogin(login).map(AdminUserDTO::new));
+        for (User user : CacheUtil.usersCache) {
+            if (user.getLogin().equals(login)) {
+                log.debug("Fetched user from cache");
+                return ResponseEntity.ok().body(new AdminUserDTO(user));
+            }
+        }
+        Optional<User> optionalUser = userService.getUserWithAuthoritiesByLogin(login);
+        optionalUser.ifPresent(user -> CacheUtil.usersCache.add(user));
+        return ResponseUtil.wrapOrNotFound(optionalUser.map(AdminUserDTO::new));
     }
 
     /**
