@@ -1,0 +1,46 @@
+entity Report{
+    generatedDate Instant required
+}
+
+entity Notification{
+    message String maxlength(1000),
+    isRead Boolean,
+    notificationDate Instant required
+}
+
+entity MonthlyBudget{
+    amount BigDecimal
+}
+
+entity SavingGoal{
+    targetAmount BigDecimal,
+    currentAmount BigDecimal,
+    targetDate LocalDate
+}
+
+entity ExpenseCategory{
+    name String
+}
+
+entity Expense{
+    amount BigDecimal,
+    date Instant,
+    description String maxlength(1000)
+}
+
+relationship OneToMany{
+    User{reports} to Report,
+    User{notifications} to Notification,
+    User{monthlyBudget} to MonthlyBudget,
+    User{expenses} to Expense
+}
+
+relationship OneToMany{
+    ExpenseCategory to MonthlyBudget{expenseCategory}
+    ExpenseCategory to Expense{expenseCategory}
+}
+
+
+
+
+
