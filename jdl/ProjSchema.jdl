@@ -28,12 +28,6 @@ entity Expense{
     description String maxlength(1000)
 }
 
-relationship OneToMany{
-    User{reports} to Report ,
-    User{notifications} to Notification ,
-    User{monthlyBudget} to MonthlyBudget,
-    User{expenses} to Expense
-}
 
 relationship ManyToOne{
     Report to User{reports} with builtInEntity
