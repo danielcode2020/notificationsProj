@@ -34,6 +34,7 @@ relationship ManyToOne{
     Notification to User{notifications} with builtInEntity,
     MonthlyBudget to User{monthlyBudget} with builtInEntity,
     Expense to User{expenses} with builtInEntity
+    SavingGoal to User{savingGoals} with builtInEntity
 }
 
 relationship OneToMany{
