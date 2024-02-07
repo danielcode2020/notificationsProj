@@ -29,10 +29,17 @@ entity Expense{
 }
 
 relationship OneToMany{
-    User{reports} to Report with builtInEntity,
-    User{notifications} to Notification with builtInEntity,
-    User{monthlyBudget} to MonthlyBudget with builtInEntity,
-    User{expenses} to Expense with builtInEntity
+    User{reports} to Report ,
+    User{notifications} to Notification ,
+    User{monthlyBudget} to MonthlyBudget,
+    User{expenses} to Expense
+}
+
+relationship ManyToOne{
+    Report to User{reports} with builtInEntity
+    Notification to User{notifications} with builtInEntity,
+    MonthlyBudget to User{monthlyBudget} with builtInEntity,
+    Expense to User{expenses} with builtInEntity
 }
 
 relationship OneToMany{
