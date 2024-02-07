@@ -18,3 +18,7 @@ click
 - npm start
 
 in browser in loc de 9000 folosim portul 4200
+
+log file can be found :
+
+{user.home}/spring-boot-logger.log
